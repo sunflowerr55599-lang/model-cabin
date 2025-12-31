@@ -45,7 +45,7 @@ export default function AccountsPage() {
     try {
       await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
       toast.success("Welcome back to The Model Cabin UK.");
-      router.push("/");
+      router.push("/dashboard");
     } catch (error: any) {
       toast.error(error.message);
     } finally {
@@ -59,7 +59,7 @@ export default function AccountsPage() {
     try {
       await createUserWithEmailAndPassword(auth, signUpEmail, signUpPassword);
       toast.success("Account created successfully.");
-      router.push("/");
+      router.push("/dashboard");
     } catch (error: any) {
       toast.error(error.message);
     } finally {
