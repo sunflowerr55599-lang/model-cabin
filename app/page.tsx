@@ -87,8 +87,9 @@ export default function LandingPage() {
           Experience the ultimate UK escape. Beyond our flagship cabins, we
           offer
           <strong> professional in-cabin massage therapy</strong>, private
-          saunas, and curated daytime sessions. Whether it's an overnight stay
-          or a steamy afternoon retreat, your privacy is our absolute priority.
+          saunas, and curated daytime sessions. Whether it&apos;s an overnight
+          stay or a steamy afternoon retreat, your privacy is our absolute
+          priority.
         </p>
       </section>
       {/* 4. Cabins Section */}
@@ -267,7 +268,7 @@ function Review({ quote, author }: { quote: string; author: string }) {
   return (
     <div className="flex flex-col items-center max-w-2xl mx-auto">
       <p className="text-xl font-serif text-gray-600 leading-relaxed italic mb-4">
-        "{quote}"
+        &quot;{quote}&quot;
       </p>
       <p className="font-bold text-gray-800 mb-2">{author}</p>
       <div className="flex gap-1">
