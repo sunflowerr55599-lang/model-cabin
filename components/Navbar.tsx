@@ -149,7 +149,7 @@ export default function Navbar() {
               {dropdownOpen && (
                 <div className="absolute top-full right-0 mt-2 w-48 bg-white border-2 border-black shadow-xl z-50">
                   <Link
-                    href="/account"
+                    href="/dashboard"
                     className="block px-4 py-3 text-[10px] font-bold uppercase tracking-widest hover:bg-gray-50 border-b border-gray-100"
                   >
                     Dashboard
@@ -182,7 +182,7 @@ export default function Navbar() {
           </SheetTrigger>
           <SheetContent>
             <div className="flex flex-col items-center pt-16 gap-y-6 font-bold uppercase tracking-widest text-sm">
-              <Link href="/">Home</Link>
+              <Link href="/dashboard">Dashboard</Link>
               <Link href="/our-cabins">Our Cabins</Link>
               <Link href="/reservations">Reservations</Link>
               <Link href="/faqs">FAQs</Link>
