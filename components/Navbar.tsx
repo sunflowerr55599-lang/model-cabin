@@ -192,7 +192,7 @@ export default function Navbar() {
                   Sign Out
                 </button>
               ) : (
-                <Link href="/accounts">Login</Link>
+                <Link href="/account">Login</Link>
               )}
             </div>
           </SheetContent>
