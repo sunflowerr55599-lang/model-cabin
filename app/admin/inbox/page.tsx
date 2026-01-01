@@ -137,7 +137,7 @@ export default function AdminInbox() {
                           <MessageSquare size={12} /> Client Message:
                         </p>
                         <p className="text-xs font-medium italic">
-                          "{item.message}"
+                          &quot;{item.message}&quot;
                         </p>
                       </div>
                     )}

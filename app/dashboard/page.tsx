@@ -5,7 +5,6 @@
 // import { useRouter } from "next/navigation";
 // import {
 //   Calendar as CalendarIcon,
-//   Settings,
 //   LogOut,
 //   User,
 //   Search,
@@ -16,6 +15,8 @@
 //   Phone,
 //   MessageSquare,
 //   ArrowRight,
+//   ChevronRight,
+//   Key,
 // } from "lucide-react";
 // import { format } from "date-fns";
 
@@ -47,7 +48,7 @@
 //   const router = useRouter();
 
 //   // Navigation & Data
-//   const [activeTab, setActiveTab] = useState("overview");
+//   const [activeTab, setActiveTab] = useState("overview"); // overview, browse, account
 //   const [cabins, setCabins] = useState<any[]>([]);
 //   const [userBookings, setUserBookings] = useState<any[]>([]);
 //   const [loading, setLoading] = useState(true);
@@ -74,7 +75,6 @@
 //   useEffect(() => {
 //     if (!user) return;
 
-//     // This query looks specifically for the logged-in user's UID
 //     const q = query(
 //       collection(db, "bookings"),
 //       where("userId", "==", user.uid),
@@ -95,7 +95,6 @@
 //       }
 //     );
 
-//     // Fetch Cabins
 //     const fetchCabins = async () => {
 //       const cabinSnap = await getDocs(
 //         query(collection(db, "cabins"), orderBy("category", "asc"))
@@ -158,8 +157,12 @@
 //             active={activeTab === "browse"}
 //             onClick={() => setActiveTab("browse")}
 //           />
-//           <NavItem icon={<User size={18} />} label="Profile" />
-//           <NavItem icon={<Settings size={18} />} label="Settings" />
+//           <NavItem
+//             icon={<User size={18} />}
+//             label="Account"
+//             active={activeTab === "account"}
+//             onClick={() => setActiveTab("account")}
+//           />
 //         </nav>
 //         <button
 //           onClick={() => signOut(auth)}
@@ -175,13 +178,15 @@
 //             Member Portal
 //           </p>
 //           <h1 className="text-3xl md:text-4xl font-black uppercase tracking-tighter">
-//             {activeTab === "overview" ? "Residency Overview" : "Select A Plan"}
+//             {activeTab === "overview" && "Residency Overview"}
+//             {activeTab === "browse" && "Select A Plan"}
+//             {activeTab === "account" && "Client Profile"}
 //           </h1>
 //         </header>
 
-//         {activeTab === "overview" ? (
+//         {/* TAB: OVERVIEW */}
+//         {activeTab === "overview" && (
 //           <div className="space-y-12 animate-in fade-in duration-500">
-//             {/* Membership Section */}
 //             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 //               <div className="lg:col-span-2">
 //                 <MembershipCard
@@ -193,7 +198,6 @@
 //               <TierProgress nightsStayed={confirmedStays.length} />
 //             </div>
 
-//             {/* PENDING REQUESTS SECTION */}
 //             <section className="space-y-4">
 //               <div className="flex items-center gap-2">
 //                 <div
@@ -241,63 +245,20 @@
 //                           </p>
 //                         </div>
 //                       </div>
-//                       <div className="absolute bottom-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-//                         <Clock size={40} />
-//                       </div>
 //                     </div>
 //                   ))}
 //                 </div>
 //               ) : (
-//                 <div className="border-2 border-dashed border-gray-100 p-8 text-center">
-//                   <p className="text-[10px] font-bold text-gray-300 uppercase tracking-widest">
-//                     No active inquiries
-//                   </p>
-//                 </div>
-//               )}
-//             </section>
-
-//             {/* CONFIRMED HISTORY */}
-//             <section className="space-y-4">
-//               <h3 className="text-[10px] font-black uppercase tracking-widest text-gray-400">
-//                 Confirmed Residencies
-//               </h3>
-//               {confirmedStays.length === 0 ? (
-//                 <div className="border-2 border-dashed border-gray-200 p-12 text-center">
-//                   <p className="text-[10px] font-black uppercase tracking-widest text-gray-300">
-//                     No confirmed stays yet
-//                   </p>
-//                 </div>
-//               ) : (
-//                 <div className="grid gap-4">
-//                   {confirmedStays.map((b) => (
-//                     <div
-//                       key={b.id}
-//                       className="bg-white border p-6 flex justify-between items-center group hover:border-black transition-all"
-//                     >
-//                       <div className="flex items-center gap-6">
-//                         <div className="w-12 h-12 bg-green-50 flex items-center justify-center text-green-600">
-//                           <ShieldCheck size={24} />
-//                         </div>
-//                         <div>
-//                           <h4 className="font-black uppercase text-sm">
-//                             {b.cabinName}
-//                           </h4>
-//                           <p className="text-[10px] text-gray-400 uppercase tracking-widest">
-//                             Completed Residency
-//                           </p>
-//                         </div>
-//                       </div>
-//                       <ArrowRight
-//                         size={18}
-//                         className="text-gray-300 group-hover:text-black transition-colors"
-//                       />
-//                     </div>
-//                   ))}
+//                 <div className="border-2 border-dashed border-gray-100 p-8 text-center text-[10px] font-bold text-gray-300 uppercase tracking-widest">
+//                   No active inquiries
 //                 </div>
 //               )}
 //             </section>
 //           </div>
-//         ) : (
+//         )}
+
+//         {/* TAB: BROWSE */}
+//         {activeTab === "browse" && (
 //           <div className="grid gap-12 animate-in slide-in-from-bottom-4 duration-500">
 //             {categories.map((cat) => (
 //               <div key={cat} className="space-y-6">
@@ -334,6 +295,83 @@
 //                 </div>
 //               </div>
 //             ))}
+//           </div>
+//         )}
+
+//         {/* TAB: ACCOUNT (Unified Profile & Settings) */}
+//         {activeTab === "account" && (
+//           <div className="max-w-3xl space-y-12 animate-in fade-in duration-500">
+//             <section className="space-y-6">
+//               <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#8b0000]">
+//                 Identity & Access
+//               </h3>
+//               <div className="grid gap-6 bg-white border p-8 shadow-sm">
+//                 <div className="grid md:grid-cols-2 gap-8">
+//                   <div className="space-y-1">
+//                     <p className="text-[9px] font-black uppercase text-gray-400 flex items-center gap-2">
+//                       <Mail size={10} /> Email Address
+//                     </p>
+//                     <p className="font-bold text-sm">{user?.email}</p>
+//                   </div>
+//                   <div className="space-y-1">
+//                     <p className="text-[9px] font-black uppercase text-gray-400 flex items-center gap-2">
+//                       <Key size={10} /> Member UID
+//                     </p>
+//                     <p className="font-mono text-[10px] text-gray-500">
+//                       {user?.uid}
+//                     </p>
+//                   </div>
+//                 </div>
+//                 <Button
+//                   variant="outline"
+//                   className="w-fit border-black rounded-none text-[9px] font-black uppercase tracking-widest hover:bg-black hover:text-white transition-all"
+//                 >
+//                   Update Security Credentials
+//                 </Button>
+//               </div>
+//             </section>
+
+//             <section className="space-y-6">
+//               <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#8b0000]">
+//                 Stay Preferences
+//               </h3>
+//               <div className="grid gap-4">
+//                 {[
+//                   {
+//                     label: "Dietary Requirements",
+//                     value: "None Specified",
+//                     icon: <ChevronRight size={14} />,
+//                   },
+//                   {
+//                     label: "Check-in Preference",
+//                     value: "In-Person Concierge",
+//                     icon: <ChevronRight size={14} />,
+//                   },
+//                   {
+//                     label: "Bar Stocking",
+//                     value: "Curated Selection",
+//                     icon: <ChevronRight size={14} />,
+//                   },
+//                 ].map((pref) => (
+//                   <div
+//                     key={pref.label}
+//                     className="flex justify-between items-center border-b border-gray-200 pb-4 group cursor-pointer hover:border-black transition-all"
+//                   >
+//                     <div>
+//                       <span className="text-xs font-bold uppercase tracking-tight block">
+//                         {pref.label}
+//                       </span>
+//                       <span className="text-[10px] text-gray-400 font-medium uppercase tracking-widest">
+//                         {pref.value}
+//                       </span>
+//                     </div>
+//                     <div className="text-gray-300 group-hover:text-black">
+//                       {pref.icon}
+//                     </div>
+//                   </div>
+//                 ))}
+//               </div>
+//             </section>
 //           </div>
 //         )}
 
@@ -473,6 +511,7 @@ import {
   ArrowRight,
   ChevronRight,
   Key,
+  Edit3,
 } from "lucide-react";
 import { format } from "date-fns";
 
@@ -488,11 +527,18 @@ import {
   orderBy,
   where,
   onSnapshot,
+  doc,
+  setDoc,
 } from "firebase/firestore";
 
 // UI Components
 import { Calendar } from "@/components/ui/calendar";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -504,15 +550,23 @@ export default function Dashboard() {
   const router = useRouter();
 
   // Navigation & Data
-  const [activeTab, setActiveTab] = useState("overview"); // overview, browse, account
+  const [activeTab, setActiveTab] = useState("overview");
   const [cabins, setCabins] = useState<any[]>([]);
   const [userBookings, setUserBookings] = useState<any[]>([]);
+  const [userProfile, setUserProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   // Flow States
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [isPrefOpen, setIsPrefOpen] = useState(false);
+
   const [selectedCabin, setSelectedCabin] = useState<any>(null);
+  const [activePrefField, setActivePrefField] = useState<{
+    id: string;
+    label: string;
+  } | null>(null);
+  const [prefValue, setPrefValue] = useState("");
   const [date, setDate] = useState<Date | undefined>(new Date());
 
   // Form States
@@ -523,11 +577,18 @@ export default function Dashboard() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // 1. Fetch User Profile Preferences
   useEffect(() => {
-    if (user) setFormData((prev) => ({ ...prev, email: user.email || "" }));
+    if (!user) return;
+    const unsub = onSnapshot(doc(db, "users", user.uid), (docSnap) => {
+      if (docSnap.exists()) {
+        setUserProfile(docSnap.data());
+      }
+    });
+    return () => unsub();
   }, [user]);
 
-  // Real-time listener for user bookings
+  // 2. Real-time listener for user bookings & Cabins
   useEffect(() => {
     if (!user) return;
 
@@ -537,19 +598,12 @@ export default function Dashboard() {
       orderBy("createdAt", "desc")
     );
 
-    const unsubscribe = onSnapshot(
-      q,
-      (snapshot) => {
-        setUserBookings(
-          snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-        );
-        setLoading(false);
-      },
-      (error) => {
-        console.error("Firestore Error:", error);
-        setLoading(false);
-      }
-    );
+    const unsubscribeBookings = onSnapshot(q, (snapshot) => {
+      setUserBookings(
+        snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+      );
+      setLoading(false);
+    });
 
     const fetchCabins = async () => {
       const cabinSnap = await getDocs(
@@ -559,10 +613,34 @@ export default function Dashboard() {
     };
     fetchCabins();
 
-    return () => unsubscribe();
+    return () => unsubscribeBookings();
   }, [user]);
 
-  const handleFinalSubmit = async (e: React.FormEvent) => {
+  // 3. Logic: Update Preferences
+  const handleUpdatePreference = async () => {
+    if (!user || !activePrefField) return;
+    setIsSubmitting(true);
+    try {
+      await setDoc(
+        doc(db, "users", user.uid),
+        {
+          preferences: {
+            [activePrefField.id]: prefValue,
+          },
+          updatedAt: serverTimestamp(),
+        },
+        { merge: true }
+      );
+      toast.success(`${activePrefField.label} updated.`);
+      setIsPrefOpen(false);
+    } catch (error) {
+      toast.error("Failed to update preferences.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleBookingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!date || !user || !selectedCabin) return;
     setIsSubmitting(true);
@@ -581,7 +659,6 @@ export default function Dashboard() {
       toast.success("Request sent to concierge.");
       setIsDetailsOpen(false);
       setActiveTab("overview");
-      setFormData({ email: user.email || "", phone: "", message: "" });
     } catch (error) {
       toast.error("Submission failed.");
     } finally {
@@ -640,7 +717,7 @@ export default function Dashboard() {
           </h1>
         </header>
 
-        {/* TAB: OVERVIEW */}
+        {/* OVERVIEW TAB */}
         {activeTab === "overview" && (
           <div className="space-y-12 animate-in fade-in duration-500">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -665,57 +742,43 @@ export default function Dashboard() {
                   )}
                 />
                 <h3 className="text-[10px] font-black uppercase tracking-widest text-black">
-                  Pending Concierge Review ({pendingInquiries.length})
+                  Active Inquiries ({pendingInquiries.length})
                 </h3>
               </div>
-
               {loading ? (
-                <div className="flex justify-center p-12">
-                  <Loader2 className="animate-spin text-gray-300" />
-                </div>
-              ) : pendingInquiries.length > 0 ? (
+                <Loader2 className="animate-spin text-gray-300" />
+              ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {pendingInquiries.map((b) => (
                     <div
                       key={b.id}
-                      className="bg-black text-white p-6 shadow-[8px_8px_0px_0px_rgba(139,0,0,1)] relative overflow-hidden group"
+                      className="bg-black text-white p-6 shadow-[8px_8px_0px_0px_rgba(139,0,0,1)]"
                     >
-                      <div className="relative z-10">
-                        <div className="flex justify-between items-start mb-4">
-                          <h4 className="font-black uppercase text-sm tracking-tight">
-                            {b.cabinName}
-                          </h4>
-                          <span className="text-[8px] bg-[#8b0000] px-2 py-0.5 font-black uppercase tracking-widest">
-                            In Review
-                          </span>
-                        </div>
-                        <div className="space-y-1 text-[10px] text-gray-400 font-bold uppercase tracking-widest">
-                          <p className="flex items-center gap-2">
-                            <CalendarIcon size={12} />
-                            {b.bookingDate?.toDate
-                              ? format(b.bookingDate.toDate(), "PPP")
-                              : "Pending"}
-                          </p>
-                          <p className="flex items-center gap-2 text-[#8b0000]">
-                            <Clock size={12} /> {b.preferredPlan}
-                          </p>
-                        </div>
+                      <h4 className="font-black uppercase text-sm mb-4">
+                        {b.cabinName}
+                      </h4>
+                      <div className="text-[10px] text-gray-400 font-bold uppercase tracking-widest space-y-1">
+                        <p className="flex items-center gap-2">
+                          <CalendarIcon size={12} />{" "}
+                          {b.bookingDate?.toDate
+                            ? format(b.bookingDate.toDate(), "PPP")
+                            : "Pending"}
+                        </p>
+                        <p className="text-[#8b0000] uppercase font-black tracking-tighter text-xs">
+                          Pending Concierge Approval
+                        </p>
                       </div>
                     </div>
                   ))}
-                </div>
-              ) : (
-                <div className="border-2 border-dashed border-gray-100 p-8 text-center text-[10px] font-bold text-gray-300 uppercase tracking-widest">
-                  No active inquiries
                 </div>
               )}
             </section>
           </div>
         )}
 
-        {/* TAB: BROWSE */}
+        {/* BROWSE TAB */}
         {activeTab === "browse" && (
-          <div className="grid gap-12 animate-in slide-in-from-bottom-4 duration-500">
+          <div className="grid gap-12 animate-in slide-in-from-bottom-4">
             {categories.map((cat) => (
               <div key={cat} className="space-y-6">
                 <h3 className="text-xs font-black uppercase tracking-[0.4em] border-b pb-2">
@@ -754,36 +817,30 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* TAB: ACCOUNT (Unified Profile & Settings) */}
+        {/* ACCOUNT TAB */}
         {activeTab === "account" && (
           <div className="max-w-3xl space-y-12 animate-in fade-in duration-500">
             <section className="space-y-6">
               <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#8b0000]">
-                Identity & Access
+                Security & Identity
               </h3>
-              <div className="grid gap-6 bg-white border p-8 shadow-sm">
+              <div className="grid gap-6 bg-white border p-8">
                 <div className="grid md:grid-cols-2 gap-8">
                   <div className="space-y-1">
-                    <p className="text-[9px] font-black uppercase text-gray-400 flex items-center gap-2">
-                      <Mail size={10} /> Email Address
+                    <p className="text-[9px] font-black uppercase text-gray-400">
+                      Email Address
                     </p>
                     <p className="font-bold text-sm">{user?.email}</p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-[9px] font-black uppercase text-gray-400 flex items-center gap-2">
-                      <Key size={10} /> Member UID
+                    <p className="text-[9px] font-black uppercase text-gray-400">
+                      Account ID
                     </p>
-                    <p className="font-mono text-[10px] text-gray-500">
+                    <p className="font-mono text-[10px] text-gray-400 italic">
                       {user?.uid}
                     </p>
                   </div>
                 </div>
-                <Button
-                  variant="outline"
-                  className="w-fit border-black rounded-none text-[9px] font-black uppercase tracking-widest hover:bg-black hover:text-white transition-all"
-                >
-                  Update Security Credentials
-                </Button>
               </div>
             </section>
 
@@ -794,23 +851,32 @@ export default function Dashboard() {
               <div className="grid gap-4">
                 {[
                   {
+                    id: "dietary",
                     label: "Dietary Requirements",
-                    value: "None Specified",
-                    icon: <ChevronRight size={14} />,
+                    value:
+                      userProfile?.preferences?.dietary ||
+                      "No requirements set",
                   },
                   {
-                    label: "Check-in Preference",
-                    value: "In-Person Concierge",
-                    icon: <ChevronRight size={14} />,
+                    id: "checkin",
+                    label: "Arrival Protocol",
+                    value:
+                      userProfile?.preferences?.checkin || "In-Person Welcome",
                   },
                   {
-                    label: "Bar Stocking",
-                    value: "Curated Selection",
-                    icon: <ChevronRight size={14} />,
+                    id: "bar",
+                    label: "In-Cabin Provisions",
+                    value:
+                      userProfile?.preferences?.bar || "Standard Selection",
                   },
                 ].map((pref) => (
                   <div
-                    key={pref.label}
+                    key={pref.id}
+                    onClick={() => {
+                      setActivePrefField({ id: pref.id, label: pref.label });
+                      setPrefValue(pref.value);
+                      setIsPrefOpen(true);
+                    }}
                     className="flex justify-between items-center border-b border-gray-200 pb-4 group cursor-pointer hover:border-black transition-all"
                   >
                     <div>
@@ -821,9 +887,10 @@ export default function Dashboard() {
                         {pref.value}
                       </span>
                     </div>
-                    <div className="text-gray-300 group-hover:text-black">
-                      {pref.icon}
-                    </div>
+                    <Edit3
+                      size={14}
+                      className="text-gray-300 group-hover:text-black"
+                    />
                   </div>
                 ))}
               </div>
@@ -831,11 +898,11 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* DIALOGS */}
+        {/* DIALOG: CALENDAR */}
         <Dialog open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
-          <DialogContent className="sm:max-w-sm p-0 rounded-none border-2 border-black overflow-hidden bg-white">
+          <DialogContent className="sm:max-w-sm p-0 rounded-none border-2 border-black bg-white">
             <div className="bg-black text-white p-4 text-center text-[10px] font-black uppercase tracking-widest">
-              Select Desired Date
+              Select Date
             </div>
             <div className="p-4 flex justify-center">
               <Calendar
@@ -852,76 +919,88 @@ export default function Dashboard() {
                 setIsDetailsOpen(true);
               }}
             >
-              Continue to Details
+              Confirm Date
             </Button>
           </DialogContent>
         </Dialog>
 
+        {/* DIALOG: BOOKING DETAILS */}
         <Dialog open={isDetailsOpen} onOpenChange={setIsDetailsOpen}>
-          <DialogContent className="sm:max-w-md p-8 rounded-none border-none bg-white text-black">
-            <div className="space-y-6">
+          <DialogContent className="sm:max-w-md p-8 rounded-none border-none bg-white">
+            <form onSubmit={handleBookingSubmit} className="space-y-6">
               <header className="border-b-4 border-[#8b0000] pb-4">
                 <h2 className="text-2xl font-black uppercase tracking-tighter">
                   Inquiry Details
                 </h2>
                 <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mt-1">
-                  Plan: {selectedCabin?.name} —{" "}
-                  {date ? format(date, "PPP") : ""}
+                  {selectedCabin?.name} — {date ? format(date, "PPP") : ""}
                 </p>
               </header>
-              <form onSubmit={handleFinalSubmit} className="space-y-4">
-                <div className="space-y-1">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 flex items-center gap-2">
-                    <Mail size={12} /> Email
-                  </label>
-                  <input
-                    required
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) =>
-                      setFormData({ ...formData, email: e.target.value })
-                    }
-                    className="w-full border-b-2 border-gray-200 focus:border-black outline-none py-2 text-sm font-bold"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 flex items-center gap-2">
-                    <Phone size={12} /> Phone
-                  </label>
-                  <input
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) =>
-                      setFormData({ ...formData, phone: e.target.value })
-                    }
-                    className="w-full border-b-2 border-gray-200 focus:border-black outline-none py-2 text-sm font-bold"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 flex items-center gap-2">
-                    <MessageSquare size={12} /> Message
-                  </label>
-                  <textarea
-                    rows={3}
-                    value={formData.message}
-                    onChange={(e) =>
-                      setFormData({ ...formData, message: e.target.value })
-                    }
-                    className="w-full border-2 border-gray-100 focus:border-black outline-none p-3 text-sm font-medium"
-                    placeholder="Preferences..."
-                  />
-                </div>
-                <Button
-                  disabled={isSubmitting}
-                  className="w-full h-14 bg-black text-white rounded-none font-black uppercase tracking-[0.2em] mt-4"
-                >
-                  {isSubmitting ? (
-                    <Loader2 className="animate-spin" />
-                  ) : (
-                    "Submit To Concierge"
-                  )}
-                </Button>
-              </form>
+              <div className="space-y-4">
+                <input
+                  required
+                  type="tel"
+                  placeholder="TELEPHONE"
+                  value={formData.phone}
+                  onChange={(e) =>
+                    setFormData({ ...formData, phone: e.target.value })
+                  }
+                  className="w-full border-b-2 border-gray-200 focus:border-black outline-none py-2 text-sm font-bold placeholder:text-gray-300"
+                />
+                <textarea
+                  rows={3}
+                  placeholder="SPECIAL REQUESTS / MESSAGE"
+                  value={formData.message}
+                  onChange={(e) =>
+                    setFormData({ ...formData, message: e.target.value })
+                  }
+                  className="w-full border-2 border-gray-100 focus:border-black outline-none p-3 text-sm font-medium"
+                />
+              </div>
+              <Button
+                disabled={isSubmitting}
+                className="w-full h-14 bg-black text-white rounded-none font-black uppercase tracking-[0.2em]"
+              >
+                {isSubmitting ? (
+                  <Loader2 className="animate-spin" />
+                ) : (
+                  "Submit To Concierge"
+                )}
+              </Button>
+            </form>
+          </DialogContent>
+        </Dialog>
+
+        {/* DIALOG: PREFERENCES UPDATE */}
+        <Dialog open={isPrefOpen} onOpenChange={setIsPrefOpen}>
+          <DialogContent className="sm:max-w-md p-8 rounded-none border-2 border-black bg-white">
+            <DialogHeader>
+              <DialogTitle className="text-xl font-black uppercase tracking-tighter">
+                Update {activePrefField?.label}
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-6 mt-4">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">
+                  Requirement Detail
+                </label>
+                <textarea
+                  value={prefValue}
+                  onChange={(e) => setPrefValue(e.target.value)}
+                  className="w-full border-2 border-gray-100 focus:border-black outline-none p-4 text-sm font-bold min-h-[120px]"
+                />
+              </div>
+              <Button
+                onClick={handleUpdatePreference}
+                disabled={isSubmitting}
+                className="w-full h-14 bg-black text-white rounded-none font-black uppercase tracking-widest"
+              >
+                {isSubmitting ? (
+                  <Loader2 className="animate-spin" />
+                ) : (
+                  "Save Changes"
+                )}
+              </Button>
             </div>
           </DialogContent>
         </Dialog>
