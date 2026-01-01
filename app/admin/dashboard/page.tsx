@@ -271,7 +271,6 @@
 //   );
 // }
 
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -302,6 +301,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
+import AdminGuard from "@/components/AdminGuard";
 
 export default function AdminPage() {
   const [loading, setLoading] = useState(true);
@@ -396,216 +396,218 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white font-montserrat flex text-black">
-      {/* Mini Sidebar */}
-      <aside className="w-20 bg-black flex flex-col items-center py-8 gap-8 border-r border-gray-100 shrink-0">
-        <Link
-          href="/dashboard"
-          className="text-white hover:text-[#8b0000] transition"
-        >
-          <LayoutDashboard size={24} />
-        </Link>
-        <div className="h-[1px] w-8 bg-gray-800" />
-        <Link href="/" className="text-gray-500 hover:text-white transition">
-          <Home size={24} />
-        </Link>
-      </aside>
+    <AdminGuard>
+      <div className="min-h-screen bg-white font-montserrat flex text-black">
+        {/* Mini Sidebar */}
+        <aside className="w-20 bg-black flex flex-col items-center py-8 gap-8 border-r border-gray-100 shrink-0">
+          <Link
+            href="/dashboard"
+            className="text-white hover:text-[#8b0000] transition"
+          >
+            <LayoutDashboard size={24} />
+          </Link>
+          <div className="h-[1px] w-8 bg-gray-800" />
+          <Link href="/" className="text-gray-500 hover:text-white transition">
+            <Home size={24} />
+          </Link>
+        </aside>
 
-      <main className="flex-1 p-8 md:p-16 max-w-6xl mx-auto">
-        <header className="mb-12 flex justify-between items-start">
-          <div>
-            <h1 className="text-4xl font-black uppercase tracking-tighter">
-              Inventory Control
-            </h1>
-            <p className="text-gray-400 text-[10px] font-bold uppercase tracking-[0.3em] mt-2">
-              Manage the Model Cabin Catalog
-            </p>
-          </div>
-          {editingId && (
-            <Button
-              onClick={resetForm}
-              variant="ghost"
-              className="text-[10px] font-black uppercase tracking-widest gap-2"
-            >
-              <X size={14} /> Exit Edit Mode
-            </Button>
-          )}
-        </header>
+        <main className="flex-1 p-8 md:p-16 max-w-6xl mx-auto">
+          <header className="mb-12 flex justify-between items-start">
+            <div>
+              <h1 className="text-4xl font-black uppercase tracking-tighter">
+                Inventory Control
+              </h1>
+              <p className="text-gray-400 text-[10px] font-bold uppercase tracking-[0.3em] mt-2">
+                Manage the Model Cabin Catalog
+              </p>
+            </div>
+            {editingId && (
+              <Button
+                onClick={resetForm}
+                variant="ghost"
+                className="text-[10px] font-black uppercase tracking-widest gap-2"
+              >
+                <X size={14} /> Exit Edit Mode
+              </Button>
+            )}
+          </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          {/* LEFT: FORM SECTION */}
-          <section className="space-y-8">
-            <h2 className="text-xs font-black uppercase tracking-[0.2em] border-b-2 border-black pb-2 flex items-center gap-2">
-              {editingId ? (
-                <Edit3 size={14} className="text-[#8b0000]" />
-              ) : (
-                <Plus size={14} />
-              )}
-              {editingId ? "Update Existing Item" : "Add New Bookable"}
-            </h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            {/* LEFT: FORM SECTION */}
+            <section className="space-y-8">
+              <h2 className="text-xs font-black uppercase tracking-[0.2em] border-b-2 border-black pb-2 flex items-center gap-2">
+                {editingId ? (
+                  <Edit3 size={14} className="text-[#8b0000]" />
+                ) : (
+                  <Plus size={14} />
+                )}
+                {editingId ? "Update Existing Item" : "Add New Bookable"}
+              </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="space-y-2">
-                <Label className="text-[10px] uppercase font-black text-gray-500">
-                  Cabin/Service Name
-                </Label>
-                <Input
-                  required
-                  className="rounded-none border-gray-200 focus:border-black h-12"
-                  value={formData.name}
-                  onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
-                  }
-                  placeholder="e.g. The Glass House"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="space-y-2">
                   <Label className="text-[10px] uppercase font-black text-gray-500">
-                    Category
-                  </Label>
-                  <select
-                    className="w-full h-12 border border-gray-200 px-3 text-sm focus:outline-none focus:border-black rounded-none bg-white appearance-none"
-                    value={formData.category}
-                    onChange={(e) =>
-                      setFormData({ ...formData, category: e.target.value })
-                    }
-                  >
-                    <option>Overnight Stays</option>
-                    <option>Daytime Sessions</option>
-                    <option>Sauna & Wellness</option>
-                  </select>
-                </div>
-                <div className="space-y-2">
-                  <Label className="text-[10px] uppercase font-black text-gray-500">
-                    Price (£)
+                    Cabin/Service Name
                   </Label>
                   <Input
                     required
-                    type="number"
-                    className="rounded-none border-gray-200 h-12"
-                    value={formData.price}
+                    className="rounded-none border-gray-200 focus:border-black h-12"
+                    value={formData.name}
                     onChange={(e) =>
-                      setFormData({ ...formData, price: e.target.value })
+                      setFormData({ ...formData, name: e.target.value })
                     }
+                    placeholder="e.g. The Glass House"
                   />
                 </div>
-              </div>
 
-              <div className="space-y-2">
-                <Label className="text-[10px] uppercase font-black text-gray-500">
-                  Location
-                </Label>
-                <Input
-                  className="rounded-none border-gray-200 h-12"
-                  value={formData.location}
-                  onChange={(e) =>
-                    setFormData({ ...formData, location: e.target.value })
-                  }
-                  placeholder="e.g. Derbyshire, UK"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label className="text-[10px] uppercase font-black text-gray-500">
-                  Image Direct URL
-                </Label>
-                <Input
-                  className="rounded-none border-gray-200 h-12"
-                  value={formData.image}
-                  onChange={(e) =>
-                    setFormData({ ...formData, image: e.target.value })
-                  }
-                  placeholder="https://images.unsplash.com/..."
-                />
-              </div>
-
-              <Button
-                disabled={isSubmitting}
-                className={cn(
-                  "w-full rounded-none uppercase font-black text-xs h-14 tracking-widest mt-4 transition-all",
-                  editingId
-                    ? "bg-[#8b0000] hover:bg-black"
-                    : "bg-black hover:bg-[#8b0000]"
-                )}
-              >
-                {isSubmitting ? (
-                  <Loader2 className="animate-spin" />
-                ) : editingId ? (
-                  "Save Changes"
-                ) : (
-                  "Confirm Entry"
-                )}
-              </Button>
-            </form>
-          </section>
-
-          {/* RIGHT: LIST SECTION */}
-          <section className="space-y-8">
-            <h2 className="text-xs font-black uppercase tracking-[0.2em] border-b-2 border-black pb-2">
-              Live Catalog
-            </h2>
-
-            <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
-              {loading ? (
-                <div className="flex justify-center py-10 text-gray-200">
-                  <Loader2 className="animate-spin" size={32} />
-                </div>
-              ) : cabins.length === 0 ? (
-                <p className="text-[10px] uppercase text-gray-400 text-center py-10">
-                  No items found in database
-                </p>
-              ) : (
-                cabins.map((cabin) => (
-                  <div
-                    key={cabin.id}
-                    className="group border border-gray-100 p-4 flex items-center justify-between hover:border-black transition-all"
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-gray-50 flex items-center justify-center overflow-hidden border border-gray-100">
-                        {cabin.image ? (
-                          <img
-                            src={cabin.image}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <ImageIcon size={20} className="text-gray-200" />
-                        )}
-                      </div>
-                      <div>
-                        <p className="text-[10px] font-black uppercase tracking-tight">
-                          {cabin.name}
-                        </p>
-                        <p className="text-[9px] text-[#8b0000] font-black uppercase tracking-widest mt-0.5">
-                          £{cabin.price} • {cabin.category}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button
-                        onClick={() => handleEdit(cabin)}
-                        className="p-2 hover:bg-black hover:text-white transition-colors"
-                        title="Edit Item"
-                      >
-                        <Edit3 size={14} />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(cabin.id)}
-                        className="p-2 hover:bg-red-600 hover:text-white transition-colors"
-                        title="Delete Item"
-                      >
-                        <Trash2 size={14} />
-                      </button>
-                    </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label className="text-[10px] uppercase font-black text-gray-500">
+                      Category
+                    </Label>
+                    <select
+                      className="w-full h-12 border border-gray-200 px-3 text-sm focus:outline-none focus:border-black rounded-none bg-white appearance-none"
+                      value={formData.category}
+                      onChange={(e) =>
+                        setFormData({ ...formData, category: e.target.value })
+                      }
+                    >
+                      <option>Overnight Stays</option>
+                      <option>Daytime Sessions</option>
+                      <option>Sauna & Wellness</option>
+                    </select>
                   </div>
-                ))
-              )}
-            </div>
-          </section>
-        </div>
-      </main>
-    </div>
+                  <div className="space-y-2">
+                    <Label className="text-[10px] uppercase font-black text-gray-500">
+                      Price (£)
+                    </Label>
+                    <Input
+                      required
+                      type="number"
+                      className="rounded-none border-gray-200 h-12"
+                      value={formData.price}
+                      onChange={(e) =>
+                        setFormData({ ...formData, price: e.target.value })
+                      }
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-[10px] uppercase font-black text-gray-500">
+                    Location
+                  </Label>
+                  <Input
+                    className="rounded-none border-gray-200 h-12"
+                    value={formData.location}
+                    onChange={(e) =>
+                      setFormData({ ...formData, location: e.target.value })
+                    }
+                    placeholder="e.g. Derbyshire, UK"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label className="text-[10px] uppercase font-black text-gray-500">
+                    Image Direct URL
+                  </Label>
+                  <Input
+                    className="rounded-none border-gray-200 h-12"
+                    value={formData.image}
+                    onChange={(e) =>
+                      setFormData({ ...formData, image: e.target.value })
+                    }
+                    placeholder="https://images.unsplash.com/..."
+                  />
+                </div>
+
+                <Button
+                  disabled={isSubmitting}
+                  className={cn(
+                    "w-full rounded-none uppercase font-black text-xs h-14 tracking-widest mt-4 transition-all",
+                    editingId
+                      ? "bg-[#8b0000] hover:bg-black"
+                      : "bg-black hover:bg-[#8b0000]"
+                  )}
+                >
+                  {isSubmitting ? (
+                    <Loader2 className="animate-spin" />
+                  ) : editingId ? (
+                    "Save Changes"
+                  ) : (
+                    "Confirm Entry"
+                  )}
+                </Button>
+              </form>
+            </section>
+
+            {/* RIGHT: LIST SECTION */}
+            <section className="space-y-8">
+              <h2 className="text-xs font-black uppercase tracking-[0.2em] border-b-2 border-black pb-2">
+                Live Catalog
+              </h2>
+
+              <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
+                {loading ? (
+                  <div className="flex justify-center py-10 text-gray-200">
+                    <Loader2 className="animate-spin" size={32} />
+                  </div>
+                ) : cabins.length === 0 ? (
+                  <p className="text-[10px] uppercase text-gray-400 text-center py-10">
+                    No items found in database
+                  </p>
+                ) : (
+                  cabins.map((cabin) => (
+                    <div
+                      key={cabin.id}
+                      className="group border border-gray-100 p-4 flex items-center justify-between hover:border-black transition-all"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-gray-50 flex items-center justify-center overflow-hidden border border-gray-100">
+                          {cabin.image ? (
+                            <img
+                              src={cabin.image}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <ImageIcon size={20} className="text-gray-200" />
+                          )}
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-black uppercase tracking-tight">
+                            {cabin.name}
+                          </p>
+                          <p className="text-[9px] text-[#8b0000] font-black uppercase tracking-widest mt-0.5">
+                            £{cabin.price} • {cabin.category}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button
+                          onClick={() => handleEdit(cabin)}
+                          className="p-2 hover:bg-black hover:text-white transition-colors"
+                          title="Edit Item"
+                        >
+                          <Edit3 size={14} />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(cabin.id)}
+                          className="p-2 hover:bg-red-600 hover:text-white transition-colors"
+                          title="Delete Item"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </section>
+          </div>
+        </main>
+      </div>
+    </AdminGuard>
   );
 }

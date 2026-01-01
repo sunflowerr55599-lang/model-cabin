@@ -13,6 +13,7 @@ import {
 import React from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/footer";
+import { GiTrophyCup } from "react-icons/gi";
 import {
   Search,
   Star,
@@ -30,32 +31,79 @@ import {
 } from "@/components/ui/accordion";
 
 export default function LandingPage() {
+  // Integrated the full list of new FAQs
   const faqs = [
     {
-      question: "Are the masseuse services private?",
+      question: "Where are you located?",
       answer:
-        "Yes. All treatments are conducted within the privacy of your own cabin. Our professional therapists bring all necessary equipment to you.",
+        "We are nestled in well appointed areas around the UK, with over 23 established cabin complexes to cater for our ever growing customer base. Kindly confirm your location on the “Booking” page in order to know our closest cabin to you. Ps. This is in line with our updated customer’s privacy and discretion policy.",
     },
     {
-      question: "What are the check-in and check-out times?",
+      question: "How do I access the cabin?",
       answer:
-        "For overnight stays, check-in is from 3:00 PM and check-out is by 11:00 AM. Daytime sessions run 1:00 PM to 4:00 PM.",
+        "After your reservation is confirmed and your membership tag verified, you will get a confirmation mail containing details of your reservation and an exact map direction down to your designated cabin. You are expected to present your “Booking code” for checking-in. Ps. This is in line with our updated customer’s privacy and discretion policy.",
     },
     {
-      question: "How do I book a 'steamy' service?",
+      question: "Is there parking available?",
       answer:
-        "You can add spa treatments and massage services during the booking process or via your account dashboard up to 48 hours before arrival.",
+        "We provide off-road private parking in all of our establishments and in rare cases there are also a couple of paid for spaces in the surroundings.",
     },
     {
-      question: "Are the cabins fully private?",
+      question: "Is there an age restriction?",
       answer:
-        "Absolutely. All properties are fully self-contained and for your exclusive use only.",
+        "We do not host persons under the age of 18. Please ensure to bring a valid photo ID if you are fortunate enough to look between 18-25.",
+    },
+    {
+      question: "How do I book a cabin?",
+      answer:
+        "Kindly see “rates and bookings” to confirm your ideal plan and date, you will get a reply containing your date confirmation and reservation invoice to process your booking payment.",
+    },
+    {
+      question: "What does my booking and membership fee cover?",
+      answer:
+        "Your booking fee covers rental of the cabin for the period of time you paid for with special cabin services included like a fully furnished kitchen. Your membership tag fee covers check-ins, special access to the smoking room, self-service bar, primary sex toys and protection. Ps. This is valid for a period of 10months.",
+    },
+    {
+      question: "Can I cancel my booking?",
+      answer:
+        "Cancellations should be made within 1week of your reserved date and your deposit will be refunded back to you, while cancellations made within 4days of your reserved date will attract an admin fee of 20%. Please contact support for more details.",
+    },
+    {
+      question: "How far in advance do I need to book?",
+      answer:
+        "Many guests book weeks or months in advance. That is not always necessary, kindly confirm your ideal date is free and available. Be aware that the cabin on special holidays and occasions such as Valentine’s Day and Christmas tends to be more in demand and early bookings are advised.",
+    },
+    {
+      question: "How can I pay?",
+      answer:
+        "We accept bank transfer, PayPal, payment vouchers and cryptocurrencies. We do not accept cash on arrival as we currently offer pre-reserved bookings only.",
+    },
+    {
+      question: "Do I have to pay a security deposit?",
+      answer:
+        "We only require a security deposit if you are 3 or more guests. Please “contact us” to reserve for 3 or more guests (separate rules applies for overnight hire).",
+    },
+    {
+      question: "Are there any house rules?",
+      answer:
+        "Yes, we expect our guests to adhere to them. It is imperative that they exercise an appropriate duty of care with all plays ranging from kinky fun to more serious BDSM, we request that you respect your partner/s and the premises. Always remember your safe words.",
+    },
+    {
+      question: "Can I smoke inside?",
+      answer:
+        "Our cabins are smoke free, but there is a dedicated and covered area for smoking in the yard. Please keep conversations off BDSM topics as this is shared with other residents.",
+    },
+    {
+      question: "Who cleans up?",
+      answer:
+        "Customers should ensure to leave the cabin how they find it. A designated staff will explain more and show you where the cleaning products are located, we pride ourselves with our spotlessly clean facilities so ensure to help us maintain it.",
     },
   ];
 
   return (
     <main className="min-h-screen bg-white text-gray-900 font-sans">
       <Navbar />
+
       {/* 2. Hero Section */}
       <section className="bg-[url('/img17.jpg')] bg-cover bg-fixed bg-center flex flex-col py-10 px-4 justify-center h-[94vh]">
         <div className="bg-white p-10 shadow-2xl max-w-md w-full rounded-sm font-montserrat mx-auto border-t-4 border-[#8b0000]">
@@ -78,7 +126,8 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-      {/* 3. Re-written Intro Text */}
+
+      {/* 3. Intro Text */}
       <section className="max-w-4xl mx-auto text-center py-24 px-6 font-montserrat">
         <h1 className="text-4xl font-serif text-[#8b0000] mb-8 uppercase tracking-tight leading-tight">
           Luxury Stays & <br /> Sensorial Wellness
@@ -92,6 +141,7 @@ export default function LandingPage() {
           priority.
         </p>
       </section>
+
       {/* 4. Cabins Section */}
       <section className="max-w-7xl mx-auto px-6 pb-20">
         <h2 className="text-center text-[11px] font-bold text-gray-400 uppercase tracking-[0.4em] mb-4">
@@ -107,7 +157,8 @@ export default function LandingPage() {
           <CabinCard title="The Boutique Cabin" price="149.00" image="/3.jpg" />
         </div>
       </section>
-      {/* 5. NEW: Steamy Services & Wellness Section */}
+
+      {/* 5. Services Section */}
       <section className="bg-[#1a1a1a] text-white py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
@@ -146,7 +197,8 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-      {/* 6. Testimonials & FAQs remain similar but with updated copy */}
+
+      {/* 6. Updated FAQs Section */}
       <section className="bg-white py-24 px-6 border-t border-gray-100 font-montserrat">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-3xl font-serif text-[#8b0000] text-center mb-16 uppercase tracking-tight leading-tight">
@@ -160,30 +212,43 @@ export default function LandingPage() {
                 value={`item-${index}`}
                 className="border-b border-gray-200 py-2"
               >
-                <AccordionTrigger className="text-left font-bold uppercase tracking-widest text-[12px] hover:text-[#8b0000] transition-colors hover:no-underline">
+                <AccordionTrigger className="text-left font-bold uppercase tracking-widest text-[11px] hover:text-[#8b0000] transition-colors hover:no-underline">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-600 leading-relaxed font-light text-base pt-2 pb-4">
+                <AccordionContent className="text-gray-500 leading-relaxed font-light text-sm pt-2 pb-4 uppercase tracking-wide">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
+
+          <div className="mt-12 text-center">
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">
+              Have a different inquiry?
+            </p>
+            <button className="text-[11px] font-black uppercase tracking-widest border-b-2 border-black pb-1 hover:text-[#8b0000] hover:border-[#8b0000] transition-all">
+              Contact Concierge Directly
+            </button>
+          </div>
         </div>
       </section>
-      {/* Award & Footer */}
+
+      {/* 7. Award & Footer */}
       <section className="py-20 text-center bg-gray-50">
-        <h2 className="text-3xl md:text-5xl font-extralight text-gray-400 uppercase tracking-[0.3em]">
-          Voted Best UK Cabin 2022
-        </h2>
+        <div className="flex flex-col items-center justify-center gap-4">
+          <p className="text-2xl md:text-4xl font-extralight text-gray-400 uppercase tracking-[0.3em] px-6">
+            Voted UK most pleasurable <br /> Cabin/Dungeon 2024
+          </p>
+          <GiTrophyCup size={40} className="text-[#DAA520] " />
+        </div>
       </section>
-      {/* Footer code here... */}
+
       <Footer />
     </main>
   );
 }
 
-// Helper component for the new services icons
+// Helper Components
 function ServiceIconCard({ icon, title, desc }: any) {
   return (
     <div className="bg-white/5 p-8 border border-white/10 text-center hover:border-[#8b0000] transition-colors group">
@@ -200,10 +265,6 @@ function ServiceIconCard({ icon, title, desc }: any) {
   );
 }
 
-// Keep your existing CabinCard and Review components...
-
-// Sub-component for individual Cabin cards
-
 function CabinCard({ title, price, image, type = "OVERNIGHT STAYS" }: any) {
   return (
     <div className="flex flex-col items-center">
@@ -219,7 +280,6 @@ function CabinCard({ title, price, image, type = "OVERNIGHT STAYS" }: any) {
       </h3>
       <p className="text-[#8b0000] font-bold text-lg mb-4">£{price}</p>
 
-      {/* --- ALERT DIALOG IMPLEMENTATION --- */}
       <AlertDialog>
         <AlertDialogTrigger asChild>
           <button className="bg-[#1a1a1a] text-white px-12 py-3 font-bold uppercase text-xs tracking-[0.2em] hover:bg-black transition">
@@ -259,23 +319,6 @@ function CabinCard({ title, price, image, type = "OVERNIGHT STAYS" }: any) {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
-  );
-}
-
-// Sub-component for Reviews
-function Review({ quote, author }: { quote: string; author: string }) {
-  return (
-    <div className="flex flex-col items-center max-w-2xl mx-auto">
-      <p className="text-xl font-serif text-gray-600 leading-relaxed italic mb-4">
-        &quot;{quote}&quot;
-      </p>
-      <p className="font-bold text-gray-800 mb-2">{author}</p>
-      <div className="flex gap-1">
-        {[...Array(5)].map((_, i) => (
-          <Star key={i} size={18} fill="#fbbf24" color="#fbbf24" />
-        ))}
-      </div>
     </div>
   );
 }

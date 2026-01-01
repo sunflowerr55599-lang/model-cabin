@@ -46,6 +46,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import MembershipCard from "@/components/membershipCard";
+import TierProgress from "@/components/tierProgress";
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -106,7 +108,6 @@ export default function Dashboard() {
   }, [user, router]);
 
   if (!user) return null;
-
 
   const seedCabins = async () => {
     const sampleCabins = [
@@ -268,7 +269,6 @@ export default function Dashboard() {
             <Menu size={24} />
           </button>
         </div>
-
         <header className="flex justify-between items-end mb-12 border-b border-gray-200 pb-8">
           <div>
             <p className="text-[#8b0000] text-[10px] font-black uppercase tracking-[0.3em] mb-2">
@@ -289,7 +289,73 @@ export default function Dashboard() {
             </h1>
           </div>
         </header>
+        {activeTab === "overview" && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12 animate-in fade-in slide-in-from-top-4 duration-700">
+            {/* The Dynamic Membership Card */}
+            <div className="lg:col-span-2">
+              {/* <MembershipCard
+                tier={
+                  userBookings.length > 5
+                    ? "Global"
+                    : userBookings.length > 0
+                    ? "Elite"
+                    : "Base"
+                } // Logic for demo, or fetch from user profile
+                userName={
+                  user?.displayName || user?.email?.split("@")[0] || "Member"
+                }
+                memberSince="JAN 2024"
+              /> */}
 
+              {/* Inside the Overview Tab, next to the Membership Card */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+                <div className="lg:col-span-2">
+                  <MembershipCard
+                    tier={
+                      userBookings.length >= 25
+                        ? "Global"
+                        : userBookings.length >= 10
+                        ? "Elite"
+                        : "Base"
+                    }
+                    userName={user?.email?.split("@")[0] || "Member"}
+                    memberSince="JAN 2026"
+                  />
+                </div>
+
+                <div className="lg:col-span-1">
+                  <TierProgress nightsStayed={userBookings.length} />
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Stats Sidebar */}
+            <div className="bg-white border border-gray-200 p-8 flex flex-col justify-between">
+              <div>
+                <h4 className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-6">
+                  Vault Stats
+                </h4>
+                <div className="space-y-4">
+                  <div className="flex justify-between border-b border-gray-100 pb-2">
+                    <span className="text-[10px] font-bold uppercase">
+                      Total Nights
+                    </span>
+                    <span className="font-black">12</span>
+                  </div>
+                  <div className="flex justify-between border-b border-gray-100 pb-2">
+                    <span className="text-[10px] font-bold uppercase">
+                      Locations
+                    </span>
+                    <span className="font-black">04</span>
+                  </div>
+                </div>
+              </div>
+              <button className="text-[9px] font-black uppercase tracking-widest border-b-2 border-black pb-1 self-start mt-8">
+                Download Annual Report
+              </button>
+            </div>
+          </div>
+        )}
         {activeTab === "overview" ? (
           /* OVERVIEW: LIVE USER BOOKINGS */
           <div className="space-y-8 animate-in fade-in duration-500">
@@ -303,13 +369,6 @@ export default function Dashboard() {
             <div className="grid gap-4">
               {userBookings.length === 0 ? (
                 <div className="p-12 border-2 border-dashed border-gray-200 text-center uppercase text-[10px] font-bold text-gray-400">
-                  {/* Temporary Seed Button - Remove after running once */}
-                  <button
-                    onClick={seedCabins}
-                    className="text-[10px] bg-red-900 text-white p-1 mb-4 opacity-50 hover:opacity-100"
-                  >
-                    Run Seed Data
-                  </button>
                   No current reservations
                 </div>
               ) : (
@@ -425,7 +484,6 @@ export default function Dashboard() {
             )}
           </div>
         )}
-
         {/* MODALS */}
         <Dialog open={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
           <DialogContent className="max-w-[95vw] sm:max-w-md rounded-none border-none p-8 bg-white text-black shadow-2xl">
@@ -451,7 +509,6 @@ export default function Dashboard() {
             </Button>
           </DialogContent>
         </Dialog>
-
         <Dialog open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
           <DialogContent className="max-w-[95vw] sm:max-w-sm rounded-none border-2 border-black p-0 bg-white">
             <div className="p-6 bg-black text-white uppercase font-black text-center tracking-widest">

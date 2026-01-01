@@ -183,9 +183,15 @@ export default function Navbar() {
           <SheetContent>
             <div className="flex flex-col items-center pt-16 gap-y-6 font-bold uppercase tracking-widest text-sm">
               <Link href="/dashboard">Dashboard</Link>
-              <Link href="/our-cabins">Our Cabins</Link>
-              <Link href="/reservations">Reservations</Link>
+              <Link href="/rates&bookings">Rates and Bookings</Link>
+              <Link href="/reservations">Gallery</Link>
+              <Link href="/store" className="text-center">
+                Equipments and toys store
+              </Link>
+              <Link href="/membership">Cabin Membership</Link>
+
               <Link href="/faqs">FAQs</Link>
+              <Link href="/support">Contact us</Link>
               <hr className="w-full border-gray-100" />
               {user ? (
                 <button onClick={handleLogout} className="text-[#8b0000]">

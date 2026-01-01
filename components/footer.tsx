@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="bg-white py-16 px-6 border-t border-gray-100">
+    <footer className="bg-white py-16 px-6 border-t border-gray-100 font-montserrat">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center mb-16">
           <a href="#" className="text-[#ba1a1a] hover:underline font-medium">
