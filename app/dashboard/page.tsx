@@ -50,6 +50,7 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import MembershipCard from "@/components/membershipCard";
 import TierProgress from "@/components/tierProgress";
+import Link from "next/link";
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -181,7 +182,9 @@ export default function Dashboard() {
       {/* SIDEBAR */}
       <aside className="w-64 bg-black text-white hidden md:flex flex-col p-8 sticky top-0 h-screen z-30">
         <div className="border-2 border-white p-2 px-3 font-black text-sm uppercase leading-none tracking-tighter mb-12">
+          <Link href="/">
           The Model <br /> Cabin UK
+          </Link>
         </div>
         <nav className="flex-1 space-y-6">
           <NavItem
