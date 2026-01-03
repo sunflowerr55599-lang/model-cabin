@@ -453,8 +453,8 @@ export default function AdminSupport() {
                 Sauna Heater Malfunction - Cabin 04
               </h3>
               <p className="text-sm text-gray-600 mb-6 italic">
-                "The digital control panel in the Blackwood Sauna is showing an
-                Error 04. Guests cannot adjust the heat."
+                &quot;The digital control panel in the Blackwood Sauna is
+                showing an Error 04. Guests cannot adjust the heat.&quot;
               </p>
               <div className="flex gap-4">
                 <Button className="rounded-none bg-black text-white uppercase text-[10px] font-black tracking-widest h-12 px-8">

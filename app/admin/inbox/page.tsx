@@ -227,7 +227,7 @@ export default function AdminInbox() {
                             Client Memo
                           </p>
                           <p className="text-sm font-medium leading-relaxed italic text-gray-700">
-                            "{item.message}"
+                            &quot;{item.message}&quot;
                           </p>
                         </div>
                       )}
