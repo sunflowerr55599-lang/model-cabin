@@ -9,6 +9,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "The Model Cabin UK",
   description: "Book Your Private Escape",
+  icons: {
+    icon: "/logo.png", // Path to your image in the p ublic folder
+  },
 };
 
 export default function RootLayout({
@@ -26,6 +29,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Darumadrop+One&family=Montserrat:wght@200&family=Poppins&display=swap"
           rel="stylesheet"
         />
+
         <link
           href="https://fonts.googleapis.com/css2?family=Darumadrop+One&family=Poppins&display=swap"
           rel="stylesheet"
