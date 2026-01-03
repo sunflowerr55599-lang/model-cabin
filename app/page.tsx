@@ -10,7 +10,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import React from "react";
+import React, { useState, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/footer";
 import { GiTrophyCup } from "react-icons/gi";
@@ -21,6 +21,7 @@ import {
   Wind,
   Sparkles,
   ShieldCheck,
+  Loader2,
 } from "lucide-react";
 import { DatePickerWithRange } from "@/components/ui/date-range-picker";
 import {
@@ -29,9 +30,29 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { toast } from "sonner";
 
 export default function LandingPage() {
-  // Integrated the full list of new FAQs
+  const [isSearching, setIsSearching] = useState(false);
+  const residencesRef = useRef<HTMLDivElement>(null);
+
+  // Function to simulate fetching and scrolling to results
+  const handleCheckAvailability = () => {
+    setIsSearching(true);
+
+    // Simulate a database fetch
+    setTimeout(() => {
+      setIsSearching(false);
+      residencesRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+      toast.success("Inventory updated. Viewing all available cabins.", {
+        style: { background: "black", color: "white", borderRadius: "0px" },
+      });
+    }, 1500);
+  };
+
   const faqs = [
     {
       question: "Where are you located?",
@@ -105,8 +126,8 @@ export default function LandingPage() {
       <Navbar />
 
       {/* 2. Hero Section */}
-      <section className="bg-[url('/img17.jpg')] bg-cover bg-fixed bg-center flex flex-col py-10 px-4 justify-center h-[94vh]">
-        <div className="bg-white p-10 shadow-2xl max-w-md w-full rounded-sm font-montserrat mx-auto border-t-4 border-[#8b0000]">
+      <section className="bg-[url('/img17.jpg')] bg-cover bg-fixed bg-center flex flex-col py-10 px-4 justify-center h-[94vh] relative">
+        <div className="bg-white p-10 shadow-2xl max-w-md w-full rounded-sm font-montserrat mx-auto border-t-4 border-[#8b0000] z-10">
           <h2 className="text-3xl font-black text-center text-gray-800 leading-tight mb-8 uppercase tracking-tighter">
             Book Your <br /> Private Escape
           </h2>
@@ -119,12 +140,26 @@ export default function LandingPage() {
               <DatePickerWithRange />
             </div>
 
-            <button className="w-full bg-[#1a1a1a] text-white py-4 font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 hover:bg-black transition text-xs">
-              <Search size={16} />
-              Check Availability
+            <button
+              onClick={handleCheckAvailability}
+              disabled={isSearching}
+              className="w-full bg-[#1a1a1a] text-white py-4 font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 hover:bg-black transition text-xs disabled:opacity-70"
+            >
+              {isSearching ? (
+                <>
+                  <Loader2 className="animate-spin" size={16} />
+                  Scanning Database...
+                </>
+              ) : (
+                <>
+                  <Search size={16} />
+                  Check Availability
+                </>
+              )}
             </button>
           </div>
         </div>
+        <div className="absolute inset-0 bg-black/10" />
       </section>
 
       {/* 3. Intro Text */}
@@ -134,8 +169,7 @@ export default function LandingPage() {
         </h1>
         <p className="text-lg text-gray-600 leading-relaxed font-light italic">
           Experience the ultimate UK escape. Beyond our flagship cabins, we
-          offer
-          <strong> professional in-cabin massage therapy</strong>, private
+          offer <strong>professional in-cabin massage therapy</strong>, private
           saunas, and curated daytime sessions. Whether it&apos;s an overnight
           stay or a steamy afternoon retreat, your privacy is our absolute
           priority.
@@ -143,7 +177,10 @@ export default function LandingPage() {
       </section>
 
       {/* 4. Cabins Section */}
-      <section className="max-w-7xl mx-auto px-6 pb-20">
+      <section
+        ref={residencesRef}
+        className="max-w-7xl mx-auto px-6 pb-20 scroll-mt-24"
+      >
         <h2 className="text-center text-[11px] font-bold text-gray-400 uppercase tracking-[0.4em] mb-4">
           The Residences
         </h2>
@@ -152,9 +189,9 @@ export default function LandingPage() {
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          <CabinCard title="The Hidden Cabin" price="165.00" image="/1.jpg" />
-          <CabinCard title="The Original Cabin" price="165.00" image="/2.jpg" />
-          <CabinCard title="The Boutique Cabin" price="149.00" image="/3.jpg" />
+          <CabinCard title="The Hidden Cabin" price="165.00" image="/img7.jpg" />
+          <CabinCard title="The Original Cabin" price="165.00" image="/img18.jpg" />
+          <CabinCard title="The Boutique Cabin" price="149.00" image="/img11.jpg" />
         </div>
       </section>
 
@@ -198,7 +235,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 6. Updated FAQs Section */}
+      {/* 6. FAQs Section */}
       <section className="bg-white py-24 px-6 border-t border-gray-100 font-montserrat">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-3xl font-serif text-[#8b0000] text-center mb-16 uppercase tracking-tight leading-tight">
@@ -237,7 +274,7 @@ export default function LandingPage() {
       <section className="py-20 text-center bg-gray-50">
         <div className="flex flex-col items-center justify-center gap-4">
           <p className="text-2xl md:text-4xl font-extralight text-gray-400 uppercase tracking-[0.3em] px-6">
-            Voted UK most pleasurable <br /> Cabin/Dungeon 2024
+            Voted UK most pleasurable <br /> Cabin Retreat 2024
           </p>
           <GiTrophyCup size={40} className="text-[#DAA520] " />
         </div>
@@ -268,7 +305,7 @@ function ServiceIconCard({ icon, title, desc }: any) {
 function CabinCard({ title, price, image, type = "OVERNIGHT STAYS" }: any) {
   return (
     <div className="flex flex-col items-center">
-      <div className="relative w-full aspect-[4/3] overflow-hidden mb-6 group cursor-pointer">
+      <div className="relative w-full aspect-[4/3] overflow-hidden mb-6 group cursor-pointer border border-gray-100">
         <img
           src={image}
           alt={title}
@@ -311,7 +348,7 @@ function CabinCard({ title, price, image, type = "OVERNIGHT STAYS" }: any) {
 
           <AlertDialogFooter className="flex-col space-y-2 sm:flex-col sm:space-x-0">
             <AlertDialogAction className="w-full bg-black text-white rounded-none uppercase font-bold tracking-widest text-xs py-6 hover:bg-gray-800 border border-black">
-              Proceed to Dates
+              Proceed to Checkout
             </AlertDialogAction>
             <AlertDialogCancel className="w-full rounded-none border-black uppercase font-bold tracking-widest text-xs py-6 mt-0">
               Cancel
